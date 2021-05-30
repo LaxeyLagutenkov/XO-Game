@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XO game: Крестики-нолики</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+</head>
+<body>
+    <div class="preload">
+        <div class="preload__welcomeTitle">Добро пожаловать!</div>
+        <div class="preload__content">
+            <div class="preload__contentTitle">У нас уже есть заполненные профили игроков. Хотите продолжить?</div>
+            <div class="preload__contentWrapper">
+                <div class="preload__player">
+                    <div class="preload__playerName1"></div>
+                    <svg class="preload__playerIcon1"></svg>
+                </div>
+                <div class="preload__player">
+                    <div class="preload__playerName2"></div>
+                    <svg class="preload__playerIcon2"></svg>
+                </div>
+            </div>
+            <div class="preload__btnWrapper">
+                <button class="preload__startBtn">Продолжить</button>
+                <button class="preload__changeBtn">Изменить</button>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="firstScreen">
+            <h1 class="firstScreen__title">Добро пожаловать в игру!</h1>
+            <div class="firstScreen__customization">
+                <h2 class="firstScreen__greeting">
+                    <span class="firstScreen__greeting-player">Игрок 1</span>, заполни свой профиль
+                </h2>
+                <form class="firstScreen__form">
+                    <div class="firstScreen__formWrap">
+                        <label for="name" class="firstScreen__form-label">Введите игровое имя:</label>
+                        <input id="name" class="firstScreen__form-name" type="text" name="name" placeholder="Ваш ник..." maxlength="30">
+                        <p class="firstScreen__form-name-require"></p>
+                    </div>
+                    <div class="firstScreen__formWrap">
+                        <label class="firstScreen__form-label">Укажите ваш пол:</label>
+                        <input id="male" class="firstScreen__form-radio radio-male" type="radio" name="sex" value ="Man" checked>
+                        <label for="male" class="firstScreen__form-label">Мужской</label>
+                        <input id="female" class="firstScreen__form-radio radio-female" type="radio" name="sex" value ="Woman">
+                        <label for="female" class="firstScreen__form-label">Женский</label>
+                    </div>
+                    <div class="firstScreen__iconsLabel">Подберите себе аватар:</div>
+                    <div class="firstScreen__icons">
+                        <svg class="firstScreen__icon firstScreen__icon-boys">
+                            <use xlink:href="icons/sprite_boys.svg#boy"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-boys">
+                            <use xlink:href="icons/sprite_boys.svg#boy2"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-boys">
+                            <use xlink:href="icons/sprite_boys.svg#boy3"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-boys">
+                            <use xlink:href="icons/sprite_boys.svg#boy4"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-boys">
+                            <use xlink:href="icons/sprite_boys.svg#boy5"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-boys">
+                            <use xlink:href="icons/sprite_boys.svg#boy6"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-boys">
+                            <use xlink:href="icons/sprite_boys.svg#boy7"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl2"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl3"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl4"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl5"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl6"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl7"></use>
+                        </svg>
+                        <svg class="firstScreen__icon firstScreen__icon-girls">
+                            <use xlink:href="icons/sprite_girls.svg#girl8"></use>
+                        </svg>
+                    </div>
+                    <p class="firstScreen__icon-require">Выберите свой аватар</p>
+                    <button class="firstScreen__formBtn">Готово</button>
+                </form>
+            </div>
+        </div>
+        <div class="game">
+            <h2 class="game__title">XO game: Крестики-нолики</h2>
+            <div class="game__counter">
+                <div class="game__round">
+                    <div class="game__roundCount">1</div>
+                    <span class="game__roundText">раунд</span>
+                </div>
+                <div class="game__roundTime">00:00</div>
+            </div>
+            <div class="game__result"></div>
+            <div class="game__wrapper">
+                <div class="game__player">
+                    <div class="game__playerName1"></div>
+                    <svg class="game__playerIcon1"></svg>
+                    <div class="game__playerRole">
+                        <svg class="game__playerRole-icon">
+                            <use xlink:href="icons/XO.svg#X"></use>
+                        </svg>
+                    </div>
+                    <div class="game__playerWins">
+                        <span>Побед:</span>
+                        <div class="game__playerWins-counter game__playerWins_player1">0</div>
+                    </div>
+                </div>
+                <div class="game__playingField">
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                    <div class="game__playingField-cell disabled"></div>
+                </div>
+                <div class="game__player">
+                    <div class="game__playerName2"></div>
+                    <svg class="game__playerIcon2"></svg>
+                    <div class="game__playerRole">
+                        <svg class="game__playerRole-icon">
+                            <use xlink:href="icons/XO.svg#O"></use>
+                        </svg>
+                    </div>
+                    <div class="game__playerWins">
+                        <span>Побед:</span>
+                        <div class="game__playerWins-counter game__playerWins_player2">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="game__btn">
+                <button class="game__startBtn disabled">Начать!</button>
+                <button class="game__choice">Кто начинает?</button>
+            </div>
+        </div>
+    </div>
+    <div class="container_back"></div>
+    <div class="game__playerChoice">
+        <div class="game__playerChoice_cross">
+            <svg class="game__playerRole-icon">
+                <use xlink:href="icons/XO.svg#X"></use>
+            </svg>
+        </div>
+        <div class="game__playerChoice_null">
+            <svg class="game__playerRole-icon">
+                <use xlink:href="icons/XO.svg#O"></use>
+            </svg>
+        </div>
+    </div>
+    <script src="/js/scrypt.js"></script>
+</body>
+</html>

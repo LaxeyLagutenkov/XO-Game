@@ -1,0 +1,294 @@
+* {
+    margin: 0;
+    padding: 0;
+    transition: all 0.5s ease;
+    font-size: 14px;
+    line-height: 1.5;
+    font-style: normal;
+    font-weight: normal;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+html,
+body {
+  height: 100%;
+}
+.container {
+    display: none;
+    height: inherit;
+    background-color: #a8d1e7;
+}
+.preload {
+    height: inherit;
+    background: linear-gradient(45deg, #96b5ce, #31033f);
+    background-size: 200% 200%;
+    animation: AnimationName 5s ease-out;
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    100%{background-position:100% 50%}
+}
+.preload__welcomeTitle {
+    padding-top: 100px;
+    text-align: center;
+    font-size: 48px;
+    color: #aaaaaa;
+    animation: welcomeTitle 3s ease-out;
+}
+@keyframes welcomeTitle {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+.preload__content {
+    width: 750px;
+    margin: 50px auto 0;
+}
+.preload__contentTitle,
+.preload__playerName1,
+.preload__playerName2 {
+    text-align: center;
+    font-size: 18px;
+    color: #aaaaaa;
+}
+.preload__contentWrapper,
+.preload__btnWrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.preload__startBtn,
+.preload__changeBtn {
+    width: 120px;
+    padding: 10px;
+    background-color: #e94f4f;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.preload__startBtn {
+    margin-right: 40px;
+}
+.container_back {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: inherit;
+    background: rgba(32, 32, 34, 0.4);
+    background-size: cover;
+}
+/* Экран кастомизации и выбора игроков */
+.firstScreen, .game {
+    display: none;
+    width: 100%;
+    height: inherit;
+}
+.firstScreen__title,
+.firstScreen__greeting,
+.game__title {
+    display: block;
+    margin: 0 auto;
+    padding-top: 60px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+.firstScreen__greeting-player {
+    font-size: inherit;
+    font-weight: inherit;
+}
+.firstScreen__customization {
+    max-width: 500px;
+    margin: 35px auto 0;
+}
+.firstScreen__greeting {
+    padding-top: 0;
+    font-size: 18px;
+}
+.firstScreen__formWrap, 
+.firstScreen__iconsLabel {
+    margin-top: 20px;
+}
+.firstScreen__form-label {
+    margin-right: 12px;
+}
+.firstScreen__form-radio {
+    margin: 10px 10px 0 0;
+}
+.firstScreen__icons {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+.firstScreen__icon-boys,
+.firstScreen__icon-girls {
+    width: 55px;
+    height: 55px;
+    cursor: pointer;
+}
+.firstScreen__form-name-require,
+.firstScreen__icon-require {
+    display: none;
+    font-size: 10px;
+    color: red;
+}
+.firstScreen__formBtn,
+.game__startBtn,
+.game__choice {
+    width: 100px;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f07a7a;
+    border: none;
+    border-radius: 5px;
+}
+.firstScreen__formBtn:hover,
+.game__startBtn:hover,
+.game__choice:hover {
+    background-color: #f34949;
+    color: #c2c1c1;
+    cursor: pointer;
+}
+/* Главный экран с игрой */
+.game__counter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 400px;
+    margin: 35px auto 50px;
+}
+.game__round,
+.game__playerWins {
+    display: flex;
+}
+.game__round,
+.game__roundCount,
+.game__roundText,
+.game__roundTime {
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    color: #220055;
+}
+.game__roundText {
+    margin-left: 5px;
+}
+.game__roundTime {
+    margin-top: 10px;
+    padding: 8px 16px;
+    border-radius: 10%;
+    width: 60px;
+    background-color: #333333;
+    color: #f34949;
+}
+.game__result {
+    position: absolute;
+    top: 230px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 20px;
+    font-weight: bold;
+    color: #c23c3c;
+}
+.game__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 750px;
+    margin: 0 auto;
+}
+/* поле игрока */
+.game__player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.game__playerName1,
+.game__playerName2 {
+    font-size: 16px;
+    text-align: center;
+}
+.game__playerIcon1,
+.game__playerIcon2 {
+    width: 80px;
+    height: 80px;
+    margin-top: 12px;
+}
+.game__playerRole-icon {
+    width: 55px;
+    height: 55px;
+    margin-top: 12px;
+}
+.game__playerWins {
+    font-size: 14px;
+}
+/* поле самой игры */
+.game__playingField {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 360px;
+    border: 2px solid #636161;
+    border-radius: 5%;
+    padding: 10px;
+}
+.game__playingField-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 115px;
+    height: 115px;
+    margin-top: 5px;
+    background-color: #a7a0a0;
+    cursor: pointer;
+}
+.game__playingField-cell_win {
+    background-color: #c23c3c;
+}
+.game__cellIcon {
+    width: 80px;
+    height: 80px;
+    margin: 0;
+}
+.game__btn {
+    display: flex;
+    width: 300px;
+    margin: 0 auto;
+    justify-content: space-between;
+    align-items: center;
+}
+.game__startBtn,
+.game__choice {
+    display: block;
+    margin: 20px auto 0;
+    cursor: pointer;
+}
+.game__choice {
+    width: 150px;
+}
+.game__playerChoice {
+    display: none;
+    position: absolute;
+    top: 350px;
+    left: 50%;
+    transform: translateX(-50%);
+    justify-content: space-around;
+    align-items: center;
+    width: 200px;
+    height: 100px;
+    background-color: #252424;
+    border-radius: 10px;
+    border: 5px solid #dddddd;
+}
+.game__playerChoice_cross,
+.game__playerChoice_null {
+    padding: 0 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.game__playerChoice_cross:hover,
+.game__playerChoice_null:hover {
+    background-color: #aaaaaa;
+    transition: 0.2s ease all;
+}
