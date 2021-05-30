@@ -1,2 +1,2 @@
-# laxeylagutenkov.github.io
-XO game
+# XO game
+Создание игры крестики-нолики в рамках изучения JS
