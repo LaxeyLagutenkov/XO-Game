@@ -134,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function() {
     formBtn.addEventListener('click', function(e) {
         e.preventDefault();
         clearRequire();
-        if (playerName.value !== '' && playerName.value.match(/[a-zA-Zа-яА-Я]/gmi) && playerName.value.length > 2 && !playerName.value.match(/[\d\s]/gi) && playerIcon !== undefined) {
+        if (playerName.value !== '' && playerName.value.match(/[a-zA-Zа-яА-Я]/gmi) && playerName.value.length > 2 && !playerName.value.match(/[\d\s]/gi) && sessionStorage.getItem(player.innerHTML+' icon') !== null) {
             sessionStorage.setItem(player.innerHTML, playerName.value);
             playerNum++;
             player.innerHTML = "Игрок "+playerNum;
@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             }
         }
-        else if (playerIcon === undefined || (playerIcon === undefined && (playerName.value === '' || playerName.value.length < 2 || playerName.value.match(/[\d\s]/gi)))) {
+        else if (sessionStorage.getItem(player.innerHTML+' icon') === null || (sessionStorage.getItem(player.innerHTML+' icon') === null && (playerName.value === '' || playerName.value.length < 2 || playerName.value.match(/[\d\s]/gi)))) {
             nameValidate ();
             iconTextRequire.style.display = 'block';
         }
@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // обработка кнопки начало игры
     startBtn.addEventListener('click', function () {
+        resetAll();
         if (!startBtn.classList.contains('disabled')) {
              // делаем поле доступным 
         gameCell.forEach(function(element) {
@@ -216,9 +217,10 @@ document.addEventListener("DOMContentLoaded", function() {
         round.innerHTML = roundCounter;
         // проверка первого хода
         turn = (turn == undefined) ? 'cross' : turn;
+        clearInterval(start);
         start = setInterval(startTimer, 1000);
-        startBtn.classList.add('disabled');
-        playerChoice.innerHTML = 'Начать заново';
+        //startBtn.classList.add('disabled');
+        startBtn.innerHTML = 'Начать заново';
         }
     });
     // Обработка кнопки для выбора того, кто первый начинает
@@ -228,20 +230,31 @@ document.addEventListener("DOMContentLoaded", function() {
         crossChoice.addEventListener('click', function(e) {
             e.preventDefault();
             turn = 'cross';
-            playerChoiceField.style.display = 'none';
-            background.style.display = 'none';
-            startBtn.classList.remove('disabled');
             resetAll();
         });
         nullChoice.addEventListener('click', function(e) {
             e.preventDefault();
             turn = 'nul';
-            playerChoiceField.style.display = 'none';
-            background.style.display = 'none';
-            startBtn.classList.remove('disabled');
             resetAll();
         });
     });
+    // сброс текущей игры
+    function resetAll() {
+        playerChoiceField.style.display = 'none';
+        background.style.display = 'none';
+        //startBtn.classList.remove('disabled');
+        clearInterval(start);
+        // очистка поля при начале новой игры
+        gameCell.forEach(function(element) {
+            element.classList.remove('active', 'nul', 'cross', 'ready', 'game__playingField-cell_win');
+            element.classList.add('disabled');
+            while (element.firstChild) {
+                element.removeChild(element.firstChild);
+            }
+        });
+        result.innerHTML = '';
+        nonEmptyCell = 0;
+    }
     // функция для таймера
     function startTimer() {
         roundTime.innerHTML = Min+''+firstMin+':'+Sec+firstSec;
@@ -273,31 +286,18 @@ document.addEventListener("DOMContentLoaded", function() {
                     checkTurn();
                     this.classList.add('active', iconName);
                     this.innerHTML = icon;
-                    
-                    winCondition(turn);
-
+                    // проверяем победу или ничью
+                    checkNobodyWin();
+                    checkWinCondition(turn);
+                    // делаем смену хода
                     turn = (turn == 'nul') ? 'cross' : 'nul';
                 }
             }
         });
     });
-    // сброс текущей игры
-    function resetAll() {
-        clearInterval(start);
-        // очистка поля при начале новой игры
-        gameCell.forEach(function(element) {
-            element.classList.remove('active', 'nul', 'cross', 'ready', 'game__playingField-cell_win');
-            element.classList.add('disabled');
-            while (element.firstChild) {
-                element.removeChild(element.firstChild);
-            }
-        });
-        result.innerHTML = '';
-        nonEmptyCell = 0;
-    }
     // функция для определения победителя
-    function whoIsWin() {
-        if (turn == 'nul') {
+    function whoIsWin(step) {
+        if (step == 'nul') {
             playerSecondWins++;
             winCounterSecond.innerHTML = playerSecondWins;
             result.innerHTML = 'Поздравляю, '+secondPlayerName.innerHTML+'. Победа за тобой!';
@@ -309,65 +309,38 @@ document.addEventListener("DOMContentLoaded", function() {
             sessionStorage.setItem('Побед у 2 игрока', playerFirstWins);
         }
         
-        setTimeout(resetAll, 3000);
-        setTimeout(() => {playerChoice.innerHTML = 'Кто начинает?';}, 3000);
+        setTimeout(resetAll, 2000);
+        setTimeout(() => {startBtn.innerHTML = 'Начать!';}, 2000);
     }
+    // создадим массив с комбинациями (ячейками игрового поля)
+    const cells = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]
+    ];
     // функция для проверки условий победы и выделения выигрышной комбинации
-    function winCondition(step) {
-        let a;
-        if (gameCell[0].classList.contains(step) && gameCell[1].classList.contains(step) && gameCell[2].classList.contains(step)) {
-            whoIsWin();
-            for (a = 0; a <3; a++) {
-                gameCell[a].classList.add('game__playingField-cell_win');
+    function checkWinCondition(step) {
+        // делаем перебор всех возможных комбинаций
+        cells.forEach((cell) => {
+            if (gameCell[cell[0]].classList.contains(step) && gameCell[cell[1]].classList.contains(step) && gameCell[cell[2]].classList.contains(step)) {
+                whoIsWin(step);
+                // проверка какую комбинацию выделить
+                for (let i = 0; i < 3; i++) {
+                    gameCell[cell[i]].classList.add('game__playingField-cell_win');
+                }
             }
-        }
-        else if (gameCell[3].classList.contains(step) && gameCell[4].classList.contains(step) && gameCell[5].classList.contains(step)) {
-            whoIsWin();
-            for (a = 3; a <6; a++) {
-                gameCell[a].classList.add('game__playingField-cell_win');
-            }
-        }
-        else if (gameCell[6].classList.contains(step) && gameCell[7].classList.contains(step) && gameCell[8].classList.contains(step)) {
-            whoIsWin();
-            for (a = 6; a <9; a++) {
-                gameCell[a].classList.add('game__playingField-cell_win');
-            }
-        }
-        else if (gameCell[0].classList.contains(step) && gameCell[3].classList.contains(step) && gameCell[6].classList.contains(step)) {
-            whoIsWin();
-            for (a = 0; a <7; a = a + 3) {
-                gameCell[a].classList.add('game__playingField-cell_win');
-            }
-        }
-        else if (gameCell[1].classList.contains(step) && gameCell[4].classList.contains(step) && gameCell[7].classList.contains(step)) {
-            whoIsWin();
-            for (a = 1; a <8; a = a + 3) {
-                gameCell[a].classList.add('game__playingField-cell_win');
-            }
-        }
-        else if (gameCell[2].classList.contains(step) && gameCell[5].classList.contains(step) && gameCell[8].classList.contains(step)) {
-            whoIsWin();
-            for (a = 2; a <9; a = a + 3) {
-                gameCell[a].classList.add('game__playingField-cell_win');
-            }
-        }
-        else if (gameCell[0].classList.contains(step) && gameCell[4].classList.contains(step) && gameCell[8].classList.contains(step)) {
-            whoIsWin();
-            for (a = 0; a <9; a = a + 4) {
-                gameCell[a].classList.add('game__playingField-cell_win');
-            }
-        }
-        else if (gameCell[2].classList.contains(step) && gameCell[4].classList.contains(step) && gameCell[6].classList.contains(step)) {
-            whoIsWin();
-            for (a = 2; a <7; a = a + 2) {
-                gameCell[a].classList.add('game__playingField-cell_win');
-            }
-        }
-        // если никто не побеждает
+        });        
+    }
+    function checkNobodyWin() {
         nonEmptyCell++;
-        if (nonEmptyCell >= 8) {
-            setTimeout(resetAll, 3000);
-            setTimeout(() => {playerChoice.innerHTML = 'Кто начинает?';}, 3000);
+        if (nonEmptyCell === 9) {
+            setTimeout(resetAll, 2000);
+            setTimeout(() => {startBtn.innerHTML = 'Начать!';}, 2000);
             result.innerHTML = 'Кажется у нас тут ничья.';
         }
     }

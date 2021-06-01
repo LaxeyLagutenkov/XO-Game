@@ -253,7 +253,7 @@ body {
 }
 .game__btn {
     display: flex;
-    width: 300px;
+    width: 350px;
     margin: 0 auto;
     justify-content: space-between;
     align-items: center;
@@ -264,8 +264,11 @@ body {
     margin: 20px auto 0;
     cursor: pointer;
 }
-.game__choice {
+.game__startBtn {
     width: 150px;
+}
+.game__choice {
+    width: 180px;
 }
 .game__playerChoice {
     display: none;
@@ -277,7 +280,7 @@ body {
     align-items: center;
     width: 200px;
     height: 100px;
-    background-color: #252424;
+    background-color: #777575;
     border-radius: 10px;
     border: 5px solid #dddddd;
 }
